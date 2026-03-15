@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class UserRegisterDTO {
-@NotBlank
+    @NotBlank
     private String username;
     @NotBlank
     @Email
     private String email;
     @NotBlank
-    @Size(min=8)
+    @Size(min = 8)
     private String password;
     @NotBlank
     private String role;
