@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
                     errores.add("La contraseña no cumple los requisitos");
                     break;
                 default:
-                    errores.add(error.getDefaultMessage());
+                    errores.add(error.getField() + ": " + error.getDefaultMessage());
             }
         }
 
