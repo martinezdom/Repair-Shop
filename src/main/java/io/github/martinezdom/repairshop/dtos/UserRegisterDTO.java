@@ -13,8 +13,6 @@ public class UserRegisterDTO {
     @NotBlank
     @Size(min = 8)
     private String password;
-    @NotBlank
-    private String role;
 
     public String getUsername() {
         return username;
@@ -38,13 +36,5 @@ public class UserRegisterDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }
