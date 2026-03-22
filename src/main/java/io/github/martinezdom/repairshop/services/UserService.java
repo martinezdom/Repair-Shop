@@ -42,13 +42,13 @@ public class UserService {
     public TokenResponseDTO loginUser(UserLoginDTO dto) {
         Optional<User> optionalUser = userRepository.findByEmail(dto.getEmail());
         if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("Credenciales inválidas");
+            throw new UserNotFoundException("Invalid credentials");
         }
 
         User user = optionalUser.get();
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPasswordHash())) {
-            throw new UserNotFoundException("Credenciales inválidas");
+            throw new UserNotFoundException("Invalid credentials");
         }
 
         String token = jwtService.generateToken(user);

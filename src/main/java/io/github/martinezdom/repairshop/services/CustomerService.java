@@ -17,11 +17,11 @@ public class CustomerService {
 
     public Customer createCustomer(CustomerCreateDTO dto) {
         if (customerRepository.existsByEmail(dto.getEmail())) {
-            throw new CustomerAlreadyExistsException("El cliente con este email ya existe");
+            throw new CustomerAlreadyExistsException("Customer with this email already exists");
         }
 
         if (customerRepository.existsByPhone(dto.getPhone())) {
-            throw new CustomerAlreadyExistsException("El cliente con este número de teléfono ya existe");
+            throw new CustomerAlreadyExistsException("Customer with this phone number already exists");
         }
 
         Customer customer = new Customer();

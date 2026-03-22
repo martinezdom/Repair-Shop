@@ -24,11 +24,11 @@ public class VehicleService {
 
     public Vehicle createVehicle(VehicleCreateDTO dto) {
         if (vehicleRepository.existsByLicensePlate(dto.getLicensePlate())) {
-            throw new VehicleAlreadyExistsException("El vehículo con esa matrícula ya existe");
+            throw new VehicleAlreadyExistsException("Vehicle with this license plate already exists");
         }
         Optional<Customer> optionalOwner = customerRepository.findById(dto.getCustomerId());
         if (optionalOwner.isEmpty()) {
-            throw new CustomerNotFoundException("No se encuentra al dueño del vehículo");
+            throw new CustomerNotFoundException("Vehicle owner not found");
         }
         Customer owner = optionalOwner.get();
         Vehicle vehicle = new Vehicle();

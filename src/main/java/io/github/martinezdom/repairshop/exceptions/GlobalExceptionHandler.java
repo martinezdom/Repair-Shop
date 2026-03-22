@@ -21,17 +21,17 @@ public class GlobalExceptionHandler {
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             switch (error.getField()) {
                 case "email":
-                    errores.add("El correo no es válido");
+                    errores.add("Email is invalid");
                     break;
                 case "password":
-                    errores.add("La contraseña no cumple los requisitos");
+                    errores.add("Password does not meet requirements");
                     break;
                 default:
                     errores.add(error.getField() + ": " + error.getDefaultMessage());
             }
         }
 
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO("Error en la validación de datos", errores);
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO("Data validation error", errores);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 

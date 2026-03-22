@@ -23,7 +23,7 @@ public class VehicleController {
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody VehicleCreateDTO dto) {
         vehicleService.createVehicle(dto);
-        return ResponseEntity.status(201).body("Vehículo registrado con éxito");
+        return ResponseEntity.status(201).body("Vehicle registered successfully");
     }
 
 }
