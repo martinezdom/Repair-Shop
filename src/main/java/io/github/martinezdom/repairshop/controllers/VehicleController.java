@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.martinezdom.repairshop.dtos.VehicleCreateDTO;
+import io.github.martinezdom.repairshop.entities.Vehicle;
 import io.github.martinezdom.repairshop.services.VehicleService;
 import jakarta.validation.Valid;
 
@@ -22,8 +23,8 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody VehicleCreateDTO dto) {
-        vehicleService.createVehicle(dto);
-        return ResponseEntity.status(201).body("Vehicle registered successfully");
+        Vehicle newVehicle = vehicleService.createVehicle(dto);
+        return ResponseEntity.status(201).body(newVehicle);
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.martinezdom.repairshop.dtos.UserRegisterDTO;
+import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.dtos.TokenResponseDTO;
 import io.github.martinezdom.repairshop.dtos.UserLoginDTO;
 import io.github.martinezdom.repairshop.services.UserService;
@@ -23,8 +24,8 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDTO dto) {
-        userService.registerUser(dto);
-        return ResponseEntity.status(201).body("User registered successfully");
+        User newUser = userService.registerUser(dto);
+        return ResponseEntity.status(201).body(newUser);
     }
 
     @PostMapping("/login")
