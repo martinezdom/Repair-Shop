@@ -1,16 +1,18 @@
 package io.github.martinezdom.repairshop.services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import io.github.martinezdom.repairshop.dtos.RepairCreateDTO;
+import io.github.martinezdom.repairshop.dtos.RepairResponseDTO;
 import io.github.martinezdom.repairshop.entities.Repair;
 import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.entities.Vehicle;
 import io.github.martinezdom.repairshop.enums.RepairStatus;
-import io.github.martinezdom.repairshop.exceptions.CustomerNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.UserNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.VehicleNotFoundException;
 import io.github.martinezdom.repairshop.repositories.RepairRepository;
@@ -50,4 +52,20 @@ public class RepairService {
         return repairRepository.save(repair);
     }
 
+    public List<RepairResponseDTO> getAllRepairs() {
+        List<Repair> repairs = repairRepository.findAll();
+        List<RepairResponseDTO> responseDtos = new ArrayList<>();
+        for (Repair repair : repairs) {
+            RepairResponseDTO dto = new RepairResponseDTO();
+            dto.setId(repair.getId());
+            dto.setCost(repair.getCost());
+            dto.setDescription(repair.getDescription());
+            dto.setEntryDate(repair.getEntryDate());
+            dto.setMechanicName(repair.getMechanic().getUsername());
+            dto.setStatus(repair.getStatus());
+            dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
+            responseDtos.add(dto);
+        }
+        return responseDtos;
+    }
 }

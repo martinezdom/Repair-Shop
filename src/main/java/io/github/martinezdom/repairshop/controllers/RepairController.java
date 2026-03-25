@@ -9,9 +9,13 @@ import io.github.martinezdom.repairshop.entities.Repair;
 import io.github.martinezdom.repairshop.services.RepairService;
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/api/repairs")
@@ -36,4 +40,9 @@ public class RepairController {
         return ResponseEntity.status(201).body(repairResponseDTO);
     }
 
+    @GetMapping
+    public ResponseEntity<?> get() {
+        List<RepairResponseDTO> repairsDtoList = repairService.getAllRepairs();
+        return ResponseEntity.ok(repairsDtoList);
+    }
 }
