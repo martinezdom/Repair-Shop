@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.martinezdom.repairshop.dtos.RepairCreateDTO;
 import io.github.martinezdom.repairshop.dtos.RepairResponseDTO;
+import io.github.martinezdom.repairshop.dtos.RepairUpdateDTO;
 import io.github.martinezdom.repairshop.entities.Repair;
 import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.entities.Vehicle;
@@ -85,5 +86,34 @@ public class RepairService {
         dto.setStatus(repair.getStatus());
         dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
         return dto;
+    }
+
+    public RepairResponseDTO updateRepair(Long id, RepairUpdateDTO dto) {
+        Optional<Repair> optionalRepair = repairRepository.findById(id);
+        if (optionalRepair.isEmpty()) {
+            throw new RepairNotFoundException("Repair not found");
+        }
+        Repair repair = optionalRepair.get();
+        if (dto.getCost() != null) {
+            repair.setCost(dto.getCost());
+        }
+        repair.setStatus(dto.getStatus());
+        repairRepository.save(repair);
+        RepairResponseDTO repairResponseDto = new RepairResponseDTO();
+        repairResponseDto.setId(repair.getId());
+        repairResponseDto.setCost(repair.getCost());
+        repairResponseDto.setDescription(repair.getDescription());
+        repairResponseDto.setEntryDate(repair.getEntryDate());
+        repairResponseDto.setMechanicName(repair.getMechanic().getUsername());
+        repairResponseDto.setStatus(repair.getStatus());
+        repairResponseDto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
+        return repairResponseDto;
+    }
+
+    public void deleteRepair(Long id) {
+        if (!repairRepository.existsById(id)) {
+            throw new RepairNotFoundException("Repair not found");
+        }
+        repairRepository.deleteById(id);
     }
 }
