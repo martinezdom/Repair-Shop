@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -45,4 +48,11 @@ public class RepairController {
         List<RepairResponseDTO> repairsDtoList = repairService.getAllRepairs();
         return ResponseEntity.ok(repairsDtoList);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        RepairResponseDTO repairResponseDto = repairService.getRepairById(id);
+        return ResponseEntity.ok(repairResponseDto);
+    }
+    
 }

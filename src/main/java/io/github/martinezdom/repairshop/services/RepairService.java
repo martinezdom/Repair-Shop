@@ -13,6 +13,7 @@ import io.github.martinezdom.repairshop.entities.Repair;
 import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.entities.Vehicle;
 import io.github.martinezdom.repairshop.enums.RepairStatus;
+import io.github.martinezdom.repairshop.exceptions.RepairNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.UserNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.VehicleNotFoundException;
 import io.github.martinezdom.repairshop.repositories.RepairRepository;
@@ -67,5 +68,22 @@ public class RepairService {
             responseDtos.add(dto);
         }
         return responseDtos;
+    }
+
+    public RepairResponseDTO getRepairById(Long id) {
+        Optional<Repair> optionalRepair = repairRepository.findById(id);
+        if (optionalRepair.isEmpty()) {
+            throw new RepairNotFoundException("Repair not found");
+        }
+        Repair repair = optionalRepair.get();
+        RepairResponseDTO dto = new RepairResponseDTO();
+        dto.setId(repair.getId());
+        dto.setCost(repair.getCost());
+        dto.setDescription(repair.getDescription());
+        dto.setEntryDate(repair.getEntryDate());
+        dto.setMechanicName(repair.getMechanic().getUsername());
+        dto.setStatus(repair.getStatus());
+        dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
+        return dto;
     }
 }
