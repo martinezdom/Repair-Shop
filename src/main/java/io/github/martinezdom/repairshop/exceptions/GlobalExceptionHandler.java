@@ -1,14 +1,14 @@
 package io.github.martinezdom.repairshop.exceptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.validation.FieldError;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -41,10 +41,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler(VehicleAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDTO> handleVehicleExists(VehicleAlreadyExistsException ex) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleUserNotFound(UserNotFoundException ex) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), new ArrayList<>());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(VehicleNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleVehicleNotFound(VehicleNotFoundException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), new ArrayList<>());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(RepairNotFoundException.class)
@@ -52,4 +58,17 @@ public class GlobalExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), new ArrayList<>());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
+
+    @ExceptionHandler(VehicleAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleVehicleExists(VehicleAlreadyExistsException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), new ArrayList<>());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleCustomerAlreadyExists(CustomerAlreadyExistsException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), new ArrayList<>());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
 }
