@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import io.github.martinezdom.repairshop.dtos.RepairCreateDTO;
@@ -14,6 +16,7 @@ import io.github.martinezdom.repairshop.entities.Repair;
 import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.entities.Vehicle;
 import io.github.martinezdom.repairshop.enums.RepairStatus;
+import io.github.martinezdom.repairshop.exceptions.InvalidStatusException;
 import io.github.martinezdom.repairshop.exceptions.RepairNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.UserNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.VehicleNotFoundException;
@@ -115,5 +118,45 @@ public class RepairService {
             throw new RepairNotFoundException("Repair not found");
         }
         repairRepository.deleteById(id);
+    }
+
+    public List<RepairResponseDTO> getRepairsByStatus(String statusText) {
+        RepairStatus statusEnum;
+        try {
+            statusEnum = RepairStatus.valueOf(statusText.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidStatusException("The status: '" + statusText + "' is not valid");
+        }
+        List<Repair> repairs = repairRepository.findByStatus(statusEnum);
+        List<RepairResponseDTO> responseDtos = new ArrayList<>();
+        for (Repair repair : repairs) {
+            RepairResponseDTO dto = new RepairResponseDTO();
+            dto.setId(repair.getId());
+            dto.setCost(repair.getCost());
+            dto.setDescription(repair.getDescription());
+            dto.setEntryDate(repair.getEntryDate());
+            dto.setMechanicName(repair.getMechanic().getUsername());
+            dto.setStatus(repair.getStatus());
+            dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
+            responseDtos.add(dto);
+        }
+        return responseDtos;
+    }
+
+    public List<RepairResponseDTO> getMyRepairs(Long mechanicId) {
+        List<Repair> repairs = repairRepository.findByMechanicId(mechanicId);
+        List<RepairResponseDTO> responseDtos = new ArrayList<>();
+        for (Repair repair : repairs) {
+            RepairResponseDTO dto = new RepairResponseDTO();
+            dto.setId(repair.getId());
+            dto.setCost(repair.getCost());
+            dto.setDescription(repair.getDescription());
+            dto.setEntryDate(repair.getEntryDate());
+            dto.setMechanicName(repair.getMechanic().getUsername());
+            dto.setStatus(repair.getStatus());
+            dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
+            responseDtos.add(dto);
+        }
+        return responseDtos;
     }
 }

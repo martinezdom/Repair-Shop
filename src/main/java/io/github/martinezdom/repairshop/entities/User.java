@@ -90,7 +90,7 @@ public class User {
 
     public String toString() {
         return String.format(
-                "Customer[id=%d, username='%s', email='%s', role='%s', created_at='%s', updated_at='%s']",
+                "User[id=%d, username='%s', email='%s', role='%s', created_at='%s', updated_at='%s']",
                 id, username, email, role, createdAt, updatedAt);
     }
 

@@ -71,4 +71,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    @ExceptionHandler(InvalidStatusException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidStatusException(InvalidStatusException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), new ArrayList<>());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
 }

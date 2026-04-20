@@ -7,12 +7,14 @@ import io.github.martinezdom.repairshop.dtos.RepairCreateDTO;
 import io.github.martinezdom.repairshop.dtos.RepairResponseDTO;
 import io.github.martinezdom.repairshop.dtos.RepairUpdateDTO;
 import io.github.martinezdom.repairshop.entities.Repair;
+import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.services.RepairService;
 import jakarta.validation.Valid;
 
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,4 +69,17 @@ public class RepairController {
         repairService.deleteRepair(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<?> getByStatus(@PathVariable String status) {
+        List<RepairResponseDTO> repairResponseDTO = repairService.getRepairsByStatus(status);
+        return ResponseEntity.ok(repairResponseDTO);
+    }
+
+    @GetMapping("/my-repairs")
+    public ResponseEntity<?> getMyRepairs(@AuthenticationPrincipal User currentUser) {
+        List<RepairResponseDTO> repairResponseDTO = repairService.getMyRepairs(currentUser.getId());
+        return ResponseEntity.ok(repairResponseDTO);
+    }
+
 }
