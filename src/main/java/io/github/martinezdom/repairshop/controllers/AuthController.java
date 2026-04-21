@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.martinezdom.repairshop.dtos.UserRegisterDTO;
 import io.github.martinezdom.repairshop.dtos.UserResponseDTO;
-import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.dtos.TokenResponseDTO;
 import io.github.martinezdom.repairshop.dtos.UserLoginDTO;
 import io.github.martinezdom.repairshop.services.UserService;

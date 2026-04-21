@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.martinezdom.repairshop.dtos.CustomerCreateDTO;
 import io.github.martinezdom.repairshop.dtos.CustomerResponseDTO;
-import io.github.martinezdom.repairshop.entities.Customer;
+import io.github.martinezdom.repairshop.dtos.CustomerUpdateDTO;
 import io.github.martinezdom.repairshop.services.CustomerService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -52,4 +53,9 @@ public class CustomerController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody CustomerUpdateDTO dto) {
+        CustomerResponseDTO customerResponseDTO = customerService.updateCustomer(id, dto);
+        return ResponseEntity.ok(customerResponseDTO);
+    }
 }

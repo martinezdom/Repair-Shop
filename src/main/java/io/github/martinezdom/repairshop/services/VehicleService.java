@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.martinezdom.repairshop.dtos.VehicleCreateDTO;
 import io.github.martinezdom.repairshop.dtos.VehicleResponseDTO;
+import io.github.martinezdom.repairshop.dtos.VehicleUpdateDTO;
 import io.github.martinezdom.repairshop.entities.Customer;
 import io.github.martinezdom.repairshop.entities.Vehicle;
 import io.github.martinezdom.repairshop.exceptions.CustomerNotFoundException;
@@ -43,16 +44,17 @@ public class VehicleService {
         vehicle.setLicensePlate(dto.getLicensePlate());
         vehicle.setYear(dto.getYear());
         vehicle.setOwner(owner);
-        Vehicle vehicleSaved = vehicleRepository.save(vehicle);
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
 
         VehicleResponseDTO vehicleResponseDTO = new VehicleResponseDTO();
-        vehicleResponseDTO.setId(vehicleSaved.getId());
-        vehicleResponseDTO.setBrand(vehicleSaved.getBrand());
-        vehicleResponseDTO.setModel(vehicleSaved.getModel());
-        vehicleResponseDTO.setLicensePlate(vehicleSaved.getLicensePlate());
-        vehicleResponseDTO.setYear(vehicleSaved.getYear());
-        vehicleResponseDTO.setCustomerId(vehicleSaved.getOwner().getId());
-        vehicleResponseDTO.setCustomerName(vehicleSaved.getOwner().getFirstName() + " " + vehicleSaved.getOwner().getLastName());
+        vehicleResponseDTO.setId(savedVehicle.getId());
+        vehicleResponseDTO.setBrand(savedVehicle.getBrand());
+        vehicleResponseDTO.setModel(savedVehicle.getModel());
+        vehicleResponseDTO.setLicensePlate(savedVehicle.getLicensePlate());
+        vehicleResponseDTO.setYear(savedVehicle.getYear());
+        vehicleResponseDTO.setCustomerId(savedVehicle.getOwner().getId());
+        vehicleResponseDTO
+                .setCustomerName(savedVehicle.getOwner().getFirstName() + " " + savedVehicle.getOwner().getLastName());
         return vehicleResponseDTO;
     }
 
@@ -93,4 +95,32 @@ public class VehicleService {
         return dto;
     }
 
+    public void deleteVehicle(Long id) {
+        if (!vehicleRepository.existsById(id)) {
+            throw new VehicleNotFoundException("Vehicle not found");
+        }
+        vehicleRepository.deleteById(id);
+    }
+
+    public VehicleResponseDTO updateVehicle(Long id, VehicleUpdateDTO dto) {
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(id);
+        if (optionalVehicle.isEmpty()) {
+            throw new VehicleNotFoundException("Vehicle not found");
+        }
+        Vehicle vehicle = optionalVehicle.get();
+        vehicle.setBrand(dto.getBrand());
+        vehicle.setModel(dto.getModel());
+        vehicle.setYear(dto.getYear());
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+
+        VehicleResponseDTO vehicleResponseDTO = new VehicleResponseDTO();
+        vehicleResponseDTO.setBrand(savedVehicle.getBrand());
+        vehicleResponseDTO.setCustomerId(savedVehicle.getOwner().getId());
+        vehicleResponseDTO.setCustomerName(savedVehicle.getOwner().getFirstName() + " " + savedVehicle.getOwner().getLastName());
+        vehicleResponseDTO.setId(savedVehicle.getId());
+        vehicleResponseDTO.setLicensePlate(savedVehicle.getLicensePlate());
+        vehicleResponseDTO.setModel(savedVehicle.getModel());
+        vehicleResponseDTO.setYear(savedVehicle.getYear());
+        return vehicleResponseDTO;
+    }
 }
