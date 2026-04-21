@@ -28,15 +28,7 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody VehicleCreateDTO dto) {
-        Vehicle newVehicle = vehicleService.createVehicle(dto);
-        VehicleResponseDTO vehicleResponseDTO = new VehicleResponseDTO();
-        vehicleResponseDTO.setId(newVehicle.getId());
-        vehicleResponseDTO.setBrand(newVehicle.getBrand());
-        vehicleResponseDTO.setModel(newVehicle.getModel());
-        vehicleResponseDTO.setLicensePlate(newVehicle.getLicensePlate());
-        vehicleResponseDTO.setYear(newVehicle.getYear());
-        vehicleResponseDTO.setCustomerId(newVehicle.getOwner().getId());
-        vehicleResponseDTO.setCustomerName(newVehicle.getOwner().getFirstName() + " " + newVehicle.getOwner().getLastName());
+        VehicleResponseDTO vehicleResponseDTO = vehicleService.createVehicle(dto);
         return ResponseEntity.status(201).body(vehicleResponseDTO);
     }
 

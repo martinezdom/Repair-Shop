@@ -22,7 +22,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(CustomerCreateDTO dto) {
+    public CustomerResponseDTO createCustomer(CustomerCreateDTO dto) {
         if (customerRepository.existsByEmail(dto.getEmail())) {
             throw new CustomerAlreadyExistsException("Customer with this email already exists");
         }
@@ -36,7 +36,15 @@ public class CustomerService {
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
         customer.setPhone(dto.getPhone());
-        return customerRepository.save(customer);
+
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
+        customerResponseDTO.setEmail(savedCustomer.getEmail());
+        customerResponseDTO.setFirstName(savedCustomer.getFirstName());
+        customerResponseDTO.setLastName(savedCustomer.getLastName());
+        customerResponseDTO.setPhone(savedCustomer.getPhone());
+        customerResponseDTO.setId(savedCustomer.getId());
+        return customerResponseDTO;
     }
 
     public Page<CustomerResponseDTO> getAllCustomers(int page, int size) {
@@ -66,6 +74,13 @@ public class CustomerService {
         dto.setEmail(customer.getEmail());
         dto.setPhone(customer.getPhone());
         return dto;
+    }
+
+    public void deleteCustomer(Long id) {
+        if (!customerRepository.existsById(id)) {
+            throw new CustomerNotFoundException("Customer not found");
+        }
+        customerRepository.deleteById(id);
     }
 
 }

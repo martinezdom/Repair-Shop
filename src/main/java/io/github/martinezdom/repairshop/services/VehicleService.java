@@ -28,7 +28,7 @@ public class VehicleService {
         this.customerRepository = customerRepository;
     }
 
-    public Vehicle createVehicle(VehicleCreateDTO dto) {
+    public VehicleResponseDTO createVehicle(VehicleCreateDTO dto) {
         if (vehicleRepository.existsByLicensePlate(dto.getLicensePlate())) {
             throw new VehicleAlreadyExistsException("Vehicle with this license plate already exists");
         }
@@ -43,7 +43,17 @@ public class VehicleService {
         vehicle.setLicensePlate(dto.getLicensePlate());
         vehicle.setYear(dto.getYear());
         vehicle.setOwner(owner);
-        return vehicleRepository.save(vehicle);
+        Vehicle vehicleSaved = vehicleRepository.save(vehicle);
+
+        VehicleResponseDTO vehicleResponseDTO = new VehicleResponseDTO();
+        vehicleResponseDTO.setId(vehicleSaved.getId());
+        vehicleResponseDTO.setBrand(vehicleSaved.getBrand());
+        vehicleResponseDTO.setModel(vehicleSaved.getModel());
+        vehicleResponseDTO.setLicensePlate(vehicleSaved.getLicensePlate());
+        vehicleResponseDTO.setYear(vehicleSaved.getYear());
+        vehicleResponseDTO.setCustomerId(vehicleSaved.getOwner().getId());
+        vehicleResponseDTO.setCustomerName(vehicleSaved.getOwner().getFirstName() + " " + vehicleSaved.getOwner().getLastName());
+        return vehicleResponseDTO;
     }
 
     public Page<VehicleResponseDTO> getAllVehicles(int page, int size) {

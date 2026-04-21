@@ -2,6 +2,7 @@ package io.github.martinezdom.repairshop.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +29,7 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CustomerCreateDTO dto) {
-        Customer newCustomer = customerService.createCustomer(dto);
-        CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
-        customerResponseDTO.setId(newCustomer.getId());
-        customerResponseDTO.setFirstName(newCustomer.getFirstName());
-        customerResponseDTO.setLastName(newCustomer.getLastName());
-        customerResponseDTO.setEmail(newCustomer.getEmail());
-        customerResponseDTO.setPhone(newCustomer.getPhone());
+        CustomerResponseDTO customerResponseDTO = customerService.createCustomer(dto);
         return ResponseEntity.status(201).body(customerResponseDTO);
     }
 
@@ -49,6 +44,12 @@ public class CustomerController {
     public ResponseEntity<?> getById(@PathVariable Long id) {
         CustomerResponseDTO customerResponseDTO = customerService.getCustomerById(id);
         return ResponseEntity.ok(customerResponseDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

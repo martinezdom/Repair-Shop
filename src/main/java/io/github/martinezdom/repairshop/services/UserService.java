@@ -29,7 +29,7 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public User registerUser(UserRegisterDTO dto) {
+    public UserResponseDTO registerUser(UserRegisterDTO dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -41,7 +41,14 @@ public class UserService {
         user.setEmail(dto.getEmail());
         user.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
         user.setRole("admin");
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(savedUser.getId());
+        userResponseDTO.setUsername(savedUser.getUsername());
+        userResponseDTO.setEmail(savedUser.getEmail());
+        userResponseDTO.setRole(savedUser.getRole());
+        return userResponseDTO;
     }
 
     public TokenResponseDTO loginUser(UserLoginDTO dto) {

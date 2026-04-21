@@ -16,21 +16,16 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
-public class UserController {
+public class AuthController {
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDTO dto) {
-        User newUser = userService.registerUser(dto);
-        UserResponseDTO userResponseDTO = new UserResponseDTO();
-        userResponseDTO.setId(newUser.getId());
-        userResponseDTO.setUsername(newUser.getUsername());
-        userResponseDTO.setEmail(newUser.getEmail());
-        userResponseDTO.setRole(newUser.getRole());
+        UserResponseDTO userResponseDTO = userService.registerUser(dto);
         return ResponseEntity.status(201).body(userResponseDTO);
     }
 

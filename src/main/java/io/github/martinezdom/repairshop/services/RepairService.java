@@ -1,8 +1,6 @@
 package io.github.martinezdom.repairshop.services;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -38,7 +36,7 @@ public class RepairService {
         this.repairRepository = repairRepository;
     }
 
-    public Repair createRepair(RepairCreateDTO dto) {
+    public RepairResponseDTO createRepair(RepairCreateDTO dto) {
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(dto.getVehicleId());
         if (optionalVehicle.isEmpty()) {
             throw new VehicleNotFoundException("Vehicle not found");
@@ -47,15 +45,29 @@ public class RepairService {
         if (optionalMechanic.isEmpty()) {
             throw new UserNotFoundException("Mechanic not found");
         }
+
         Vehicle vehicle = optionalVehicle.get();
         User mechanic = optionalMechanic.get();
+
         Repair repair = new Repair();
         repair.setDescription(dto.getDescription());
         repair.setVehicle(vehicle);
         repair.setMechanic(mechanic);
         repair.setStatus(RepairStatus.PENDIENTE);
         repair.setEntryDate(LocalDateTime.now());
-        return repairRepository.save(repair);
+
+        Repair savedRepair = repairRepository.save(repair);
+
+        RepairResponseDTO responseDTO = new RepairResponseDTO();
+        responseDTO.setId(savedRepair.getId());
+        responseDTO.setCost(savedRepair.getCost());
+        responseDTO.setDescription(savedRepair.getDescription());
+        responseDTO.setEntryDate(savedRepair.getEntryDate());
+        responseDTO.setMechanicName(savedRepair.getMechanic().getUsername());
+        responseDTO.setStatus(savedRepair.getStatus());
+        responseDTO.setVehicleLicensePlate(savedRepair.getVehicle().getLicensePlate());
+
+        return responseDTO;
     }
 
     public Page<RepairResponseDTO> getAllRepairs(int page, int size) {
