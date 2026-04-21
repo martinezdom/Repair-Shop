@@ -2,8 +2,6 @@ package io.github.martinezdom.repairshop.dtos;
 
 import java.math.BigDecimal;
 
-import jakarta.validation.constraints.NotNull;
-
 public class DashboardResponseDTO {
     private Long pendingCars;
     private BigDecimal totalRevenue;

@@ -1,17 +1,21 @@
 package io.github.martinezdom.repairshop.controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.martinezdom.repairshop.dtos.CustomerCreateDTO;
+import io.github.martinezdom.repairshop.dtos.CustomerResponseDTO;
 import io.github.martinezdom.repairshop.entities.Customer;
 import io.github.martinezdom.repairshop.services.CustomerService;
 import jakarta.validation.Valid;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/api/customers")
@@ -25,7 +29,26 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CustomerCreateDTO dto) {
         Customer newCustomer = customerService.createCustomer(dto);
-        return ResponseEntity.status(201).body(newCustomer);
+        CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
+        customerResponseDTO.setId(newCustomer.getId());
+        customerResponseDTO.setFirstName(newCustomer.getFirstName());
+        customerResponseDTO.setLastName(newCustomer.getLastName());
+        customerResponseDTO.setEmail(newCustomer.getEmail());
+        customerResponseDTO.setPhone(newCustomer.getPhone());
+        return ResponseEntity.status(201).body(customerResponseDTO);
     }
-    
+
+    @GetMapping
+    public ResponseEntity<?> get(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<CustomerResponseDTO> customerResponseDTO = customerService.getAllCustomers(page, size);
+        return ResponseEntity.ok(customerResponseDTO);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        CustomerResponseDTO customerResponseDTO = customerService.getCustomerById(id);
+        return ResponseEntity.ok(customerResponseDTO);
+    }
+
 }

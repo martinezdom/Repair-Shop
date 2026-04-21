@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import io.github.martinezdom.repairshop.dtos.RepairCreateDTO;
@@ -57,10 +58,10 @@ public class RepairService {
         return repairRepository.save(repair);
     }
 
-    public List<RepairResponseDTO> getAllRepairs() {
-        List<Repair> repairs = repairRepository.findAll();
-        List<RepairResponseDTO> responseDtos = new ArrayList<>();
-        for (Repair repair : repairs) {
+    public Page<RepairResponseDTO> getAllRepairs(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Repair> repairPage = repairRepository.findAll(pageable);
+        return repairPage.map(repair -> {
             RepairResponseDTO dto = new RepairResponseDTO();
             dto.setId(repair.getId());
             dto.setCost(repair.getCost());
@@ -69,9 +70,8 @@ public class RepairService {
             dto.setMechanicName(repair.getMechanic().getUsername());
             dto.setStatus(repair.getStatus());
             dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
-            responseDtos.add(dto);
-        }
-        return responseDtos;
+            return dto;
+        });
     }
 
     public RepairResponseDTO getRepairById(Long id) {
@@ -120,16 +120,19 @@ public class RepairService {
         repairRepository.deleteById(id);
     }
 
-    public List<RepairResponseDTO> getRepairsByStatus(String statusText) {
+    public Page<RepairResponseDTO> getRepairsByStatus(String statusText, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         RepairStatus statusEnum;
+
         try {
             statusEnum = RepairStatus.valueOf(statusText.toUpperCase());
         } catch (IllegalArgumentException ex) {
             throw new InvalidStatusException("The status: '" + statusText + "' is not valid");
         }
-        List<Repair> repairs = repairRepository.findByStatus(statusEnum);
-        List<RepairResponseDTO> responseDtos = new ArrayList<>();
-        for (Repair repair : repairs) {
+
+        Page<Repair> repairPage = repairRepository.findByStatus(statusEnum, pageable);
+
+        return repairPage.map(repair -> {
             RepairResponseDTO dto = new RepairResponseDTO();
             dto.setId(repair.getId());
             dto.setCost(repair.getCost());
@@ -138,15 +141,14 @@ public class RepairService {
             dto.setMechanicName(repair.getMechanic().getUsername());
             dto.setStatus(repair.getStatus());
             dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
-            responseDtos.add(dto);
-        }
-        return responseDtos;
+            return dto;
+        });
     }
 
-    public List<RepairResponseDTO> getMyRepairs(Long mechanicId) {
-        List<Repair> repairs = repairRepository.findByMechanicId(mechanicId);
-        List<RepairResponseDTO> responseDtos = new ArrayList<>();
-        for (Repair repair : repairs) {
+    public Page<RepairResponseDTO> getMyRepairs(Long mechanicId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Repair> repairsPage = repairRepository.findByMechanicId(mechanicId, pageable);
+        return repairsPage.map(repair -> {
             RepairResponseDTO dto = new RepairResponseDTO();
             dto.setId(repair.getId());
             dto.setCost(repair.getCost());
@@ -155,8 +157,8 @@ public class RepairService {
             dto.setMechanicName(repair.getMechanic().getUsername());
             dto.setStatus(repair.getStatus());
             dto.setVehicleLicensePlate(repair.getVehicle().getLicensePlate());
-            responseDtos.add(dto);
-        }
-        return responseDtos;
+            return dto;
+        });
+
     }
 }

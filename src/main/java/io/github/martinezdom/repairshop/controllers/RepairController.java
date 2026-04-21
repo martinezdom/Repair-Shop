@@ -1,6 +1,7 @@
 package io.github.martinezdom.repairshop.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.martinezdom.repairshop.dtos.RepairCreateDTO;
@@ -13,6 +14,7 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +48,8 @@ public class RepairController {
     }
 
     @GetMapping
-    public ResponseEntity<?> get() {
-        List<RepairResponseDTO> repairsDtoList = repairService.getAllRepairs();
+    public ResponseEntity<?> get(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Page<RepairResponseDTO> repairsDtoList = repairService.getAllRepairs(page, size);
         return ResponseEntity.ok(repairsDtoList);
     }
 
@@ -70,14 +72,14 @@ public class RepairController {
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<?> getByStatus(@PathVariable String status) {
-        List<RepairResponseDTO> repairResponseDTO = repairService.getRepairsByStatus(status);
+    public ResponseEntity<?> getByStatus(@PathVariable String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Page<RepairResponseDTO> repairResponseDTO = repairService.getRepairsByStatus(status, page, size);
         return ResponseEntity.ok(repairResponseDTO);
     }
 
     @GetMapping("/my-repairs")
-    public ResponseEntity<?> getMyRepairs(@AuthenticationPrincipal User currentUser) {
-        List<RepairResponseDTO> repairResponseDTO = repairService.getMyRepairs(currentUser.getId());
+    public ResponseEntity<?> getMyRepairs(@AuthenticationPrincipal User currentUser, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Page<RepairResponseDTO> repairResponseDTO = repairService.getMyRepairs(currentUser.getId(), page, size);
         return ResponseEntity.ok(repairResponseDTO);
     }
 

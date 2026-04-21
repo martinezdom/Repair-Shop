@@ -2,9 +2,14 @@ package io.github.martinezdom.repairshop.services;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import io.github.martinezdom.repairshop.dtos.UserResponseDTO;
 import io.github.martinezdom.repairshop.repositories.UserRepository;
 import io.github.martinezdom.repairshop.entities.User;
 import io.github.martinezdom.repairshop.exceptions.UserNotFoundException;
@@ -53,5 +58,32 @@ public class UserService {
 
         String token = jwtService.generateToken(user);
         return new TokenResponseDTO(token);
+    }
+
+    public Page<UserResponseDTO> getAllUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage = userRepository.findAll(pageable);
+        return userPage.map(user -> {
+            UserResponseDTO dto = new UserResponseDTO();
+            dto.setId(user.getId());
+            dto.setUsername(user.getUsername());
+            dto.setEmail(user.getEmail());
+            dto.setRole(user.getRole());
+            return dto;
+        });
+    }
+
+    public UserResponseDTO getUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+        User user = optionalUser.get();
+        UserResponseDTO dto = new UserResponseDTO();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
+        return dto;
     }
 }
