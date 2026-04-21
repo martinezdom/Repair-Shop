@@ -1,0 +1,27 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: repairshop_mysql
+    environment:
+      MYSQL_DATABASE: repair_shop_db
+      MYSQL_ROOT_PASSWORD: example1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api-backend:
+    build: .
+    container_name: repairshop_api
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://mysql-db:3306/repair_shop_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      DB_USER: root
+      DB_PASSWORD: example1234
+      JWT_SECRET: repairshop-demo-secret
+    depends_on:
+      - mysql-db
+
+volumes:
+  mysql_data:
