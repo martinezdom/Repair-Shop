@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.github.martinezdom</groupId>
-	<artifactId>repairshop</artifactId>
+	<artifactId>repair-shop-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>repairshop</name>
+	<name>Repair-Shop-Backend</name>
 	<description>API REST para sistema de gestión de taller de reparaciones.</description>
 	<url/>
 	<licenses>

@@ -1,4 +1,4 @@
-# Repair-Shop API
+# Repair-Shop-Backend API
 
 ![Java](https://img.shields.io/badge/Java-17%2F21-007396?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-REST_API-6DB33F?logo=springboot&logoColor=white)

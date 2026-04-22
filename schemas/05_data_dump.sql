@@ -1,5 +1,5 @@
 -- ==============================================
--- Repair-Shop sample data dump
+-- Repair-Shop-Backend sample data dump
 -- Compatible con MySQL 8+
 -- Requiere haber ejecutado previamente:
 --   schema_users.sql
