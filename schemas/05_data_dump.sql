@@ -60,7 +60,7 @@ INSERT INTO vehicles (brand, model, license_plate, year, customer_id) VALUES
 
 -- ----------------
 -- REPAIRS (28)
--- Estados validos: PENDIENTE, TERMINADO, CANCELADO
+-- Estados validos: PENDIENTE, TERMINADO, EN_PROGRESO
 -- ----------------
 INSERT INTO repairs (description, status, entry_date, exit_date, cost, vehicle_id, mechanic_id) VALUES
 ('Cambio de aceite y filtro', 'TERMINADO', '2026-03-01 09:10:00', '2026-03-01 12:30:00', 89.90, 1, 1),
@@ -86,7 +86,7 @@ INSERT INTO repairs (description, status, entry_date, exit_date, cost, vehicle_i
 ('Pulido de faros', 'TERMINADO', '2026-03-21 09:20:00', '2026-03-21 10:50:00', 60.00, 9, 1),
 ('Revision de suspension trasera', 'TERMINADO', '2026-03-22 12:15:00', '2026-03-22 16:40:00', 280.00, 10, 2),
 ('Cambio de filtro de combustible', 'TERMINADO', '2026-03-23 08:45:00', '2026-03-23 11:05:00', 110.00, 11, 4),
-('Reprogramacion centralita', 'CANCELADO', '2026-03-24 09:30:00', NULL, NULL, 12, 1),
+('Reprogramacion centralita', 'EN_PROGRESO', '2026-03-24 09:30:00', NULL, NULL, 12, 1),
 ('Sustitucion de radiador', 'PENDIENTE', '2026-03-25 10:55:00', NULL, NULL, 1, 2),
 ('Cambio de liquido de frenos', 'TERMINADO', '2026-03-26 09:40:00', '2026-03-26 11:15:00', 75.00, 2, 3),
 ('Comprobacion de ruidos en direccion', 'PENDIENTE', '2026-03-27 11:20:00', NULL, NULL, 3, 1),
