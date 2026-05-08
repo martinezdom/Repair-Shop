@@ -6,9 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "customers")
+@SQLDelete(sql = "UPDATE customers SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +25,9 @@ public class Customer {
     private String email;
     @Column(unique = true, nullable = false)
     private String phone;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
 
     public Customer() {
 
@@ -72,4 +79,13 @@ public class Customer {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
 }

@@ -3,6 +3,9 @@ package io.github.martinezdom.repairshop.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import io.github.martinezdom.repairshop.enums.RepairStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,6 +21,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "repairs")
+@SQLDelete(sql = "UPDATE repairs SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class Repair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +44,9 @@ public class Repair {
     @JoinColumn(name = "mechanic_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User mechanic;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
 
     public Repair() {
 
@@ -117,6 +125,14 @@ public class Repair {
 
     public void setMechanic(User mechanic) {
         this.mechanic = mechanic;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
 }

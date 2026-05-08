@@ -5,5 +5,6 @@ CREATE TABLE vehicles (
     license_plate VARCHAR(20) NOT NULL UNIQUE,
     year INT NOT NULL,
     customer_id BIGINT NOT NULL,
+    deleted BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT fk_vehicle_customer FOREIGN KEY (customer_id) REFERENCES customers(id)
 );

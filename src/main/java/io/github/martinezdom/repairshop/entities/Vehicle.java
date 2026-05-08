@@ -1,5 +1,8 @@
 package io.github.martinezdom.repairshop.entities;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +15,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "vehicles")
+@SQLDelete(sql = "UPDATE vehicles SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +33,9 @@ public class Vehicle {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer owner;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
 
     public Vehicle() {
 
@@ -79,6 +87,14 @@ public class Vehicle {
 
     public void setOwner(Customer owner) {
         this.owner = owner;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
 }

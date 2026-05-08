@@ -2,6 +2,9 @@ package io.github.martinezdom.repairshop.entities;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,23 +17,28 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable=false, unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
-    @Column(nullable=false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String passwordHash;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String role;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
 
     public Long getId() {
         return id;
@@ -92,6 +100,14 @@ public class User {
         return String.format(
                 "User[id=%d, username='%s', email='%s', role='%s', created_at='%s', updated_at='%s']",
                 id, username, email, role, createdAt, updatedAt);
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
 }

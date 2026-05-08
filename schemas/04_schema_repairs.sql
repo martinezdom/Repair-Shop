@@ -8,5 +8,6 @@ CREATE TABLE repairs(
     vehicle_id BIGINT NOT NULL,
     mechanic_id BIGINT NOT NULL,
     CONSTRAINT fk_repairs_vehicles FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
-    CONSTRAINT fk_repairs_users FOREIGN KEY (mechanic_id) REFERENCES users(id)
+    CONSTRAINT fk_repairs_users FOREIGN KEY (mechanic_id) REFERENCES users(id),
+    deleted BOOLEAN NOT NULL DEFAULT FALSE
 );

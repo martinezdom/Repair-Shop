@@ -3,5 +3,6 @@ CREATE TABLE customers(
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    phone VARCHAR(20) NOT NULL UNIQUE
+    phone VARCHAR(20) NOT NULL UNIQUE,
+    deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
