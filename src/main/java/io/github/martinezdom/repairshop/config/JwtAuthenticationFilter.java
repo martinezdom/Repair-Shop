@@ -1,7 +1,6 @@
 package io.github.martinezdom.repairshop.config;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Optional<User> optionalUser = userRepository.findByEmail(userEmail);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, List.of());
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

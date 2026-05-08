@@ -21,7 +21,7 @@ public class JwtService {
         String token = JWT.create()
                 .withIssuer("RepairShop")
                 .withSubject(user.getEmail())
-                .withClaim("role", user.getRole())
+                .withClaim("role", user.getRole().name())
                 .withExpiresAt(Instant.now().plusSeconds(7200))
                 .sign(algorithm);
         return token;

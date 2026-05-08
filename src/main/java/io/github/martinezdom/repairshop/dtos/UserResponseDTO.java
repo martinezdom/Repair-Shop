@@ -1,10 +1,12 @@
 package io.github.martinezdom.repairshop.dtos;
 
+import io.github.martinezdom.repairshop.enums.Role;
+
 public class UserResponseDTO {
     private Long id;
     private String username;
     private String email;
-    private String role;
+    private Role role;
 
     public Long getId() {
         return id;
@@ -30,11 +32,11 @@ public class UserResponseDTO {
         this.email = email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

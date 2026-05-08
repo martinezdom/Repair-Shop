@@ -19,10 +19,8 @@ START TRANSACTION;
 -- Hash BCrypt valido para "example1234":
 --   $2a$10$kmG0PQlIhPycJPTA4w1MPe5nMzbHCxWYmkYm8WQut2aZEhNhkV7Im
 INSERT INTO users (username, email, password_hash, role) VALUES
-('jlopez', 'j.lopez@repairshop.local', '$2a$10$wQvSxK1F7s4H8mN2rP0yOeL9zYtD3fG6hJ1kL2mN3pQ4rS5tU6vW.', 'MECHANIC'),
-('agarcia', 'a.garcia@repairshop.local', '$2a$10$uXrD3kP9mN1bV6cQ2wE4rT8yY5uI7oP3aS6dF9gH2jK4lZ0xC1vB.', 'MECHANIC'),
-('mmartin', 'm.martin@repairshop.local', '$2a$10$gH4jK7lP2sD9fQ1wE6rT3yU8iO5pA0zX2cV7bN4mL1kJ6hG9dF3s.', 'MECHANIC'),
-('demo.mecanico', 'demo.mecanico@repairshop.local', '$2a$10$kmG0PQlIhPycJPTA4w1MPe5nMzbHCxWYmkYm8WQut2aZEhNhkV7Im', 'MECHANIC');
+('demo.mecanico', 'demo.mecanico@repairshop.local', '$2a$10$kmG0PQlIhPycJPTA4w1MPe5nMzbHCxWYmkYm8WQut2aZEhNhkV7Im', 'MECHANIC'),
+('demo.admin', 'demo.admin@repairshop.local', '$2a$10$kmG0PQlIhPycJPTA4w1MPe5nMzbHCxWYmkYm8WQut2aZEhNhkV7Im', 'ADMIN');
 
 -- ----------------
 -- CUSTOMERS (12)

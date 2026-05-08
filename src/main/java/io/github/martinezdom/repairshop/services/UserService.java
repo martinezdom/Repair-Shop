@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import io.github.martinezdom.repairshop.dtos.UserResponseDTO;
 import io.github.martinezdom.repairshop.repositories.UserRepository;
 import io.github.martinezdom.repairshop.entities.User;
+import io.github.martinezdom.repairshop.enums.Role;
 import io.github.martinezdom.repairshop.exceptions.EmailAlreadyExists;
 import io.github.martinezdom.repairshop.exceptions.UserNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.UsernameAlreadyExistsException;
@@ -42,7 +43,7 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
         user.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
-        user.setRole("admin");
+        user.setRole(Role.ADMIN);
         User savedUser = userRepository.save(user);
 
         UserResponseDTO userResponseDTO = new UserResponseDTO();
