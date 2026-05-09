@@ -23,7 +23,6 @@ import io.github.martinezdom.repairshop.entities.Customer;
 import io.github.martinezdom.repairshop.exceptions.CustomerAlreadyExistsException;
 import io.github.martinezdom.repairshop.exceptions.CustomerNotFoundException;
 import io.github.martinezdom.repairshop.exceptions.EmailAlreadyExists;
-import io.github.martinezdom.repairshop.exceptions.PhoneAlreadyExists;
 import io.github.martinezdom.repairshop.repositories.CustomerRepository;
 
 @ExtendWith(MockitoExtension.class)

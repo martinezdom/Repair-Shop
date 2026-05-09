@@ -26,8 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.github.martinezdom.repairshop.config.JwtAuthenticationFilter;
 import io.github.martinezdom.repairshop.dtos.RepairCreateDTO;
 import io.github.martinezdom.repairshop.dtos.RepairResponseDTO;
