@@ -21,7 +21,7 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MECHANIC')")
     @GetMapping
     public ResponseEntity<?> get(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
