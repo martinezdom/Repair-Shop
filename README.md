@@ -60,9 +60,8 @@ Credenciales demo usadas en Docker:
 ## Ejecución sin Docker
 
 1. Crea la base de datos `repairshop`.
-2. Ejecuta los scripts de la carpeta `schemas/`.
-3. Define las variables de entorno.
-4. Arranca la app con Maven:
+2. Define las variables de entorno.
+3. Arranca la app con Maven:
 
 ```bash
 mvn spring-boot:run
@@ -82,11 +81,10 @@ Una vez levantada la aplicación:
 
 Para probar endpoints protegidos, primero obtén token en `/api/auth/login` y luego usa el botón Authorize.
 
-## Base de datos
-
-En `schemas/` tienes los scripts para crear las tablas y un `data_dump.sql` opcional con datos de ejemplo. Ese dump viene bien para probar el dashboard y el login demo nada más arrancar.
+En `schemas/` tienes un `05_data_dump.sql` opcional con datos de ejemplo. Ese dump viene bien para probar el dashboard y el login demo. Como ahora Flyway gestiona las tablas, puedes importar este archivo manualmente en tu cliente SQL **después** de arrancar la aplicación por primera vez.
 
 ## Notas
 
-- `spring.jpa.hibernate.ddl-auto=validate`, así que el esquema debe existir antes de arrancar.
+- Flyway está configurado para crear automáticamente el esquema de la base de datos al arrancar (`spring.flyway.enabled=true`).
+- `spring.jpa.hibernate.ddl-auto=validate`, así que Flyway se encarga de todo y Hibernate solo valida.
 - La idea del proyecto es ir creciendo por módulos sin mezclar la lógica de negocio con la capa web.
