@@ -1,17 +1,23 @@
 # Repair-Shop-Backend API
 
-![Java](https://img.shields.io/badge/Java-17%2F21-007396?logo=openjdk&logoColor=white)
+![Java](https://img.shields.io/badge/Java-21-007396?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-REST_API-6DB33F?logo=springboot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-6DB33F?logo=springsecurity&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white)
+![Flyway](https://img.shields.io/badge/Flyway-Migrations-CC0200?logo=flyway&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?logo=swagger&logoColor=black)
 
-API REST para gestionar un taller de reparaciones. Ahora mismo cubre autenticación con JWT, usuarios, clientes, vehículos, reparaciones y estadísticas básicas del negocio.
+API REST para gestionar un taller de reparaciones. Cubre autenticación con JWT, usuarios, clientes, vehículos, reparaciones y estadísticas básicas del negocio.
 
 ## Qué incluye
 
 - Spring Boot + Spring Web MVC.
 - Spring Data JPA + Hibernate.
 - MySQL como base de datos.
-- Autenticación y autorización con Spring Security + JWT.
+- Flyway para el control de versiones y migraciones de la base de datos.
+- Autenticación y autorización con Spring Security y JWT.
+- Documentación automática con Swagger.
 - CRUD de reparaciones y filtro por estado.
 - Dashboard con consultas JPQL.
 - Paginación en las listas principales.
